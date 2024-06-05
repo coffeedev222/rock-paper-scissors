@@ -1,8 +1,5 @@
-console.log("Hello World")
-
-//Get Computer generated choice
 function getComputerChoice() {
-    let result = Math.round(Math.random(3))
+    let result = Math.round(Math.random() * 3)
     if(result === 0) {
         result = "Rock";
     }
@@ -12,17 +9,57 @@ function getComputerChoice() {
     else{
         result = "Scissors";
     }
-    return result
+    return result    
 } 
 
-console.log(getComputerChoice());
+function getHumanChoice() {
+    let choice = prompt("Choose Rock, Paper, or Scissors (any invalid choice will be considered a loss!)");
+    return choice[0].toUpperCase() + choice.slice(1);
+}
 
-//Get Human input for their choice
-let getHumanChoice = function() {
-    return prompt("Choose Rock, Paper, or Scissors");
+let humanScore = 0;
+let computerScore = 0;
+
+function playRound(humanChoice, computerChoice) {
+    if(humanChoice === computerChoice) {
+        console.log("It's a Tie!")
     }
+    else if(humanChoice === "Rock" && computerChoice === "Scissors") {
+        console.log("Human Wins! " + humanChoice + " beats " + computerChoice + "!");
+        humanScore++;
+    }
+    else if(humanChoice === "Paper" && computerChoice === "Rock") {
+        console.log("Human Wins! " + humanChoice + " beats " + computerChoice + "!");
+        humanScore++;
+    }
+    else if(humanChoice === "Scissors" && computerChoice === "Paper") {
+        console.log("Human Wins! " + humanChoice + " beats " + computerChoice + "!");
+        humanScore++;
+    }
+    else {
+        console.log("Computer Wins! " + computerChoice + " beats " + humanChoice + "!");
+        computerScore++
+    }
+}
 
-console.log(getHumanChoice());
-//Store the score into a variable to keep count of score
-//Create how round is played by taking Computers choice, and humans choice to determine the winner based on rules of rock paper scissors
-//Create how the game is won by keeping tally of the score until 5 wins is reached by one player.
+function playGame() {
+    for(i=0; i < 5; i++)
+    {
+        const computerSelection = getComputerChoice();
+        const humanSelection = getHumanChoice();
+        playRound(humanSelection,computerSelection);
+    }
+    if(humanScore > computerScore) {
+        console.log("You have won the game!");
+    }
+    else if(computerScore > humanScore) {
+        console.log("Computer has won the game!");
+    }
+    else {
+        console.log("The game has ended in a draw!");
+    }
+    console.log("Final Score: " + "Human: " + humanScore + " Computer Score: " + computerScore);
+    
+}
+
+playGame();
