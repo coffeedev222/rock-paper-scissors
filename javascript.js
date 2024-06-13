@@ -1,3 +1,52 @@
+//Variables
+let selectedRock = document.getElementById("rock-btn");
+let selectedPaper = document.getElementById("paper-btn");
+let selectedScissors = document.getElementById("scissors-btn");
+let winnerPrompt = document.getElementById("announce-container");
+let winnerBox = document.getElementById("winner-box");
+let closebtn = document.getElementById("close-btn");
+let lastRoundResults = document.getElementById("last-round-results");
+let humanScore = 0;
+let computerScore = 0;
+let tieScore = 0;
+
+//Event Listeners
+selectedRock.addEventListener("click", function(){
+    let computerChoice = getComputerChoice();
+    let humanChoice = 'Rock';
+    playRound(humanChoice, computerChoice);
+    displayScore();
+    decalreWinner();
+});
+
+
+selectedPaper.addEventListener("click", function() {
+    let computerChoice = getComputerChoice();
+    let humanChoice = 'Paper';
+    playRound(humanChoice, computerChoice);
+    displayScore();
+    decalreWinner();
+});
+
+
+selectedScissors.addEventListener("click", function() {
+    let computerChoice = getComputerChoice();
+    let humanChoice = 'Scissors';
+    playRound(humanChoice, computerChoice);
+    displayScore();
+    decalreWinner();
+});
+
+closebtn.addEventListener("click" , function() {
+    winnerPrompt.style.display = "none";
+    humanScore = 0;
+    computerScore = 0;
+    tieScore = 0;
+    displayScore();
+    lastRoundResults.innerHTML = " ";
+})
+
+//functions
 function getComputerChoice() {
     let result = Math.round(Math.random() * 3)
     if(result === 0) {
@@ -12,54 +61,41 @@ function getComputerChoice() {
     return result    
 } 
 
-function getHumanChoice() {
-    let choice = prompt("Choose Rock, Paper, or Scissors (any invalid choice will be considered a loss!)");
-    return choice[0].toUpperCase() + choice.slice(1);
-}
-
-let humanScore = 0;
-let computerScore = 0;
-
 function playRound(humanChoice, computerChoice) {
     if(humanChoice === computerChoice) {
-        console.log("It's a Tie!")
+        lastRoundResults.innerHTML = "It was a tie!";
+        tieScore++;
+
     }
     else if(humanChoice === "Rock" && computerChoice === "Scissors") {
-        console.log("Human Wins! " + humanChoice + " beats " + computerChoice + "!");
+        lastRoundResults.innerHTML = "Human Wins! " + humanChoice + " beats " + computerChoice + "!";
         humanScore++;
     }
     else if(humanChoice === "Paper" && computerChoice === "Rock") {
-        console.log("Human Wins! " + humanChoice + " beats " + computerChoice + "!");
+        lastRoundResults.innerHTML = "Human Wins! " + humanChoice + " beats " + computerChoice + "!";
         humanScore++;
     }
     else if(humanChoice === "Scissors" && computerChoice === "Paper") {
-        console.log("Human Wins! " + humanChoice + " beats " + computerChoice + "!");
+        lastRoundResults.innerHTML = "Human Wins! " + humanChoice + " beats " + computerChoice + "!";
         humanScore++;
     }
     else {
-        console.log("Computer Wins! " + computerChoice + " beats " + humanChoice + "!");
+        lastRoundResults.innerHTML = "Computer Wins! " + computerChoice + " beats " + humanChoice + "!";
         computerScore++
     }
 }
 
-function playGame() {
-    for(i=0; i < 5; i++)
-    {
-        const computerSelection = getComputerChoice();
-        const humanSelection = getHumanChoice();
-        playRound(humanSelection,computerSelection);
-    }
-    if(humanScore > computerScore) {
-        console.log("You have won the game!");
-    }
-    else if(computerScore > humanScore) {
-        console.log("Computer has won the game!");
-    }
-    else {
-        console.log("The game has ended in a draw!");
-    }
-    console.log("Final Score: " + "Human: " + humanScore + " Computer Score: " + computerScore);
-    
+function displayScore() {
+    let score = document.getElementById("score").innerText = "Human: " + humanScore + " Computer: "  + computerScore + " Ties: " + tieScore;
 }
 
-playGame();
+function decalreWinner() {
+    if(humanScore === 5) {
+        winnerBox.innerText = "Human Wins Play Again?";
+        winnerPrompt.style.display = "block";
+    } 
+    if (computerScore === 5) {
+        winnerBox.innerText = "Computer Wins Play Again?";
+        winnerPrompt.style.display = "block";
+    }
+}
